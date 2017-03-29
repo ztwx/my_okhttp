@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-    String url="http://www.jianshu.com/p/e3b49ccfe10b";
+    String url="file:///E:/apache-tomcat-8.0.42-windows-x64/apache-tomcat-8.0.42/webapps/test.html?id=btn_get";
 
     Request request=new Request.Builder().url(url).build();
 
