@@ -48,7 +48,14 @@ public class LoginActivity extends AppCompatActivity {
         String username=etxtUsernanme.getText().toString().trim();
         String password=etxtPassword.getText().toString().trim();
 
-        loginWithForm(username,password);
+            loginWithForm(username,password);//form表单形式
+          //loginWithJson(username,password);//json参数形式
+
+
+    }
+
+    private void loginWithJson(String username, String password) {
+
     }
 
     private void loginWithForm(String username, String password) {
