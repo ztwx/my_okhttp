@@ -47,13 +47,9 @@ public class FileDownActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_down);
         ButterKnife.bind(this);
-        requestPermissions();
         initOkhttp();
     }
 
-    private void requestPermissions() {
-
-    }
 
     private void initOkhttp() {
         httpClient=new OkHttpClient();
