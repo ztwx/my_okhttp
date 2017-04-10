@@ -1,11 +1,17 @@
 package com.example.zhantao.myapplication;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.zhantao.myapplication.model.BaseResult;
+import com.example.zhantao.myapplication.model.User;
+import com.example.zhantao.myapplication.okhttp.BaseCallBack;
+import com.example.zhantao.myapplication.okhttp.SimpleHttpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +46,46 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         httpClient=new OkHttpClient();
+
+        //SimpleHttpClient client=new SimpleHttpClient.Builder().get().build();
+//        SimpleHttpClient.newBuilder().url("https://www.cniao5.com/").get().build().enqueue(new BaseCallBack<User>(){
+//            @Override
+//            public void onSuccess(User user) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//
+//            }
+//
+//            @Override
+//            public void onError(int code) {
+//
+//            }
+//        });
+        String url=config.API.BESE_URL+"login";
+        SimpleHttpClient.newBuilder().url(url).json().post().addParam("usernanme","cniao5").addParam("password","123456").build()
+                .enqueue(new BaseCallBack<BaseResult>() {
+                    @Override
+                    public void onSuccess(BaseResult baseResult) {
+
+                        if (baseResult.getSuccess()==-1){
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onError(int code) {
+
+                    }
+                });
+
     }
 
     @OnClick(R.id.btn_login)
@@ -48,13 +94,22 @@ public class LoginActivity extends AppCompatActivity {
         String username=etxtUsernanme.getText().toString().trim();
         String password=etxtPassword.getText().toString().trim();
 
-            loginWithForm(username,password);//form表单形式
-          //loginWithJson(username,password);//json参数形式
+            //loginWithForm(username,password);//form表单形式
+          loginWithJson(username,password);//json参数形式
 
 
     }
 
     private void loginWithJson(String username, String password) {
+       // String url= Bitmap.Config.ALPHA_8+"login/json";
+        String url="https://www.cniao5.com/";
+        SimpleHttpClient.newBuilder().addParam("username",username).addParam("password",password)
+                .json().url(url).build().enqueue(new BaseCallBack<BaseResult>() {
+            @Override
+            public void onSuccess(BaseResult baseResult) {
+
+            }
+        });
 
     }
 

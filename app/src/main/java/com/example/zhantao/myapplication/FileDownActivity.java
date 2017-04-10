@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.zhantao.myapplication.okhttp.ProgressListener;
+import com.example.zhantao.myapplication.okhttp.ProgressResponseBody;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +29,7 @@ import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -52,7 +56,39 @@ public class FileDownActivity extends AppCompatActivity {
 
 
     private void initOkhttp() {
-        httpClient=new OkHttpClient();
+        //httpClient=new OkHttpClient();
+        httpClient=new OkHttpClient.Builder().addNetworkInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response response=chain.proceed(chain.request());
+                return response.newBuilder().body(new ProgressResponseBody(response.body(),new Prg())).build();
+            }
+        }).build();
+    }
+    class Prg implements ProgressListener{
+
+        @Override
+        public void onProgress(final int progress) {
+            //progressBar.setProgress(progress);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setProgress(progress);
+                }
+            });
+
+        }
+
+        @Override
+        public void onDone(long totalSize) {
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(FileDownActivity.this,"下载完成",Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     @OnClick(R.id.btn_download)
